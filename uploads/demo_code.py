@@ -87,7 +87,10 @@ def draw_graph(G, dense_community_users):
     print(f"Total Users (Nodes): {G.number_of_nodes()}")
     print(f"Total Connections (Edges): {G.number_of_edges()}")
     
-    plt.show()
+    output_path = "uploads/graph.png"
+    plt.savefig(output_path, format="png")
+    plt.close()
+    print(f"\nGraph saved as {output_path}")
 
 def run_simulation_and_plot(num_community_users, num_other_users, num_resources, num_tags, community_activity, other_activity):
     """Sets up data, runs the simulation, and plots the resulting graph."""

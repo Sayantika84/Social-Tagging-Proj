@@ -41,14 +41,26 @@
     <pre id="outputBox"></pre>
   </div>
 
-  <script>
-    document.getElementById("demoForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const response = await fetch("/run_demo", { method: "POST", body: formData });
-      const data = await response.json();
-      document.getElementById("outputBox").textContent = data.output || data.error;
-    });
-  </script>
+<script>
+document.getElementById("demoForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const response = await fetch("/run_demo", { method: "POST", body: formData });
+  const data = await response.json();
+
+  const outputBox = document.getElementById("outputBox");
+  outputBox.textContent = data.output || data.error || "No output.";
+
+  if (data.image) {
+    const img = document.createElement("img");
+    img.src = data.image + "?t=" + new Date().getTime(); // prevent caching
+    img.alt = "Generated Graph";
+    img.style.width = "100%";
+    img.style.marginTop = "20px";
+    outputBox.appendChild(img);
+  }
+});
+</script>
+
 </body>
 </html>

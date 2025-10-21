@@ -25,17 +25,22 @@ def run_demo():
         comm_act = int(request.form.get("community_activity", 10))
         other_act = int(request.form.get("other_activity", 5))
 
-        # Run the script as a subprocess (without showing matplotlib UI)
         result = subprocess.run(
             ["python", "uploads/demo_code.py"],
             input=f"no\n{num_comm}\n{num_other}\n{num_resources}\n{num_tags}\n{comm_act}\n{other_act}\n",
             capture_output=True,
             text=True
         )
-        output = result.stdout[-1000:]  # last part of output
-        return jsonify({"output": output})
+        output = result.stdout[-2000:]
+        image_url = "/uploads/graph.png" if os.path.exists("uploads/graph.png") else None
+        return jsonify({"output": output, "image": image_url})
     except Exception as e:
         return jsonify({"error": str(e)})
+
+@app.route("/uploads/<path:filename>")
+def uploaded_file(filename):
+    return send_from_directory("uploads", filename)
+
 
 if __name__ == "__main__":
     import os

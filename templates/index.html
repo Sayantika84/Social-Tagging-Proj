@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Social Tagging - Sayantika Mondal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Social Tagging</h1>
+    <p><strong>Name:</strong> Sayantika Mondal</p>
+    <p><strong>Roll No:</strong> 205124085</p>
+    <p><strong>Topic:</strong> Social Tagging</p>
+
+    <a href="/download/presentation.pptx" class="btn">Click to See PPT</a>
+    <a href="/download/demo_code.py" class="btn">Download Demo Code</a>
+
+    <h2>Run Python Demo</h2>
+    <form id="demoForm">
+      <label>Number of Community Users:</label>
+      <input name="num_community_users" type="number" value="50" required>
+      <br>
+      <label>Number of Other Users:</label>
+      <input name="num_other_users" type="number" value="100" required>
+       <br>
+      <label>Number of Resources:</label>
+      <input name="num_resources" type="number" value="50" required>
+       <br>
+      <label>Number of Tags:</label>
+      <input name="num_tags" type="number" value="20" required>
+      <br>
+      <label>Community Activity (tags per user):</label>
+      <input name="community_activity" type="number" value="20" required>
+    <br>
+      <label>Other Activity (tags per user):</label>
+      <input name="other_activity" type="number" value="10" required>
+      <br>
+      <button type="submit" class="btn">Run Demo</button>
+    </form>
+
+    <pre id="outputBox"></pre>
+  </div>
+
+  <script>
+    document.getElementById("demoForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const response = await fetch("/run_demo", { method: "POST", body: formData });
+      const data = await response.json();
+      document.getElementById("outputBox").textContent = data.output || data.error;
+    });
+  </script>
+</body>
+</html>
